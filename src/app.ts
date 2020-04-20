@@ -3,6 +3,7 @@ import path from 'path'
 import bodyParser from 'body-parser'
 
 import * as homeController from './controllers/home'
+import * as submitController from './controllers/submit'
 
 const app = express()
 
@@ -15,6 +16,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 
 // primary routes
 app.get('/', homeController.index)
+app.get('/submit', submitController.getSubmit)
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => next(new Error(req.url)))
