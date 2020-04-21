@@ -8,5 +8,6 @@ export const index = async (req: Request, res: Response) => {
     res.render('home', {
         title: 'Home',
         theme: req.session.theme || 'dark',
+        chartTitle: req.session.chartTitle || 'ChartXY',
     })
 }

@@ -1,6 +1,6 @@
 import { lightningChart, renderToSharp } from 'lcjs-headless'
 import { createProgressiveTraceGenerator } from '@arction/xydata'
-import { DataPatterns, Themes, Theme } from 'lcjs'
+import { DataPatterns, Themes } from 'lcjs'
 import sharp from 'sharp'
 
 const lc = lightningChart()
@@ -24,15 +24,18 @@ export const getChartImage = (id: number) => {
 
 export interface ChartOptions {
     theme?: 'dark' | 'light'
+    title: string
 }
 
 export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp> => {
     const data = await generator.generate().toPromise()
     console.log(options)
     const theme = options.theme === 'light' ? Themes.light : Themes.dark
-    const chart = lc.ChartXY({
-        theme,
-    })
+    const chart = lc
+        .ChartXY({
+            theme,
+        })
+        .setTitle(options.title)
     const series = chart.addLineSeries({
         dataPattern: DataPatterns.horizontalProgressive,
     })

@@ -4,7 +4,8 @@ import { addToLatest, generateChart, getChartImage } from '../chart/chart'
 
 export const getIndexChart = async (req: Request, res: Response) => {
     const theme = req.session.theme || Themes.dark
-    const img = await generateChart({ theme })
+    const title = req.session.chartTitle || 'ChartXY'
+    const img = await generateChart({ theme, title })
     addToLatest(img)
     return img.toFormat('png').pipe(res)
 }
@@ -29,10 +30,9 @@ export const postChart = async (req: Request, res: Response) => {
             theme = 'dark'
     }
 
-    const img = await generateChart({
-        theme,
-    })
     req.session.theme = theme
-    addToLatest(img)
+    if (req.body.title) {
+        req.session.chartTitle = req.body.title
+    }
     return res.redirect('/')
 }
