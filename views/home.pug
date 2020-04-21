@@ -5,6 +5,19 @@ block content
     sup &reg;
   .container-lg
     .row
-      img.col-8
+      img.col-8(src="/chart")
       .col
-    .row
+        h2 Edit the chart
+        form(action="/chart", method="POST")
+          label(for="theme-select") Choose theme:
+          select(name="theme" id="theme-select")
+            - var isDarkTheme = theme == 'dark'
+            option(value="Dark", selected=isDarkTheme) Dark
+            option(value="Light", selected=!isDarkTheme) Light
+          input(type="submit", value="Submit")
+    .row.mt-2
+      img.col(src="/chart/0")
+      img.col(src="/chart/1")
+      img.col(src="/chart/2")
+      img.col(src="/chart/3")
+      img.col(src="/chart/4")

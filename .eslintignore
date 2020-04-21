@@ -9,3 +9,5 @@ coverage/*
 # custom definition files
 /src/types/
 copyStaticAssets.ts
+lcjs
+lcjs-headless

@@ -2,11 +2,10 @@ import { Request, Response } from 'express'
 
 /**
  * GET /
- * Home page.
+ * About page.
  */
 export const index = async (req: Request, res: Response) => {
-    res.render('home', {
-        title: 'Home',
-        theme: req.session.theme || 'dark',
+    res.render('about', {
+        title: 'About',
     })
 }

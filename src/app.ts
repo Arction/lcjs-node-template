@@ -1,22 +1,38 @@
 import express, { NextFunction, Request, Response } from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
+import session from 'express-session'
+import 'sharp'
+import 'lcjs-headless'
 
 import * as homeController from './controllers/home'
-import * as submitController from './controllers/submit'
+import * as aboutController from './controllers/about'
+import * as chartController from './controllers/charts'
 
 const app = express()
+
+const SESSION_SECRET = '123'
 
 app.set('views', path.join(__dirname, '../views'))
 app.set('view engine', 'pug')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(
+    session({
+        resave: false,
+        saveUninitialized: true,
+        secret: SESSION_SECRET,
+    }),
+)
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 
 // primary routes
 app.get('/', homeController.index)
-app.get('/submit', submitController.getSubmit)
+app.get('/about', aboutController.index)
+app.get('/chart', chartController.getIndexChart)
+app.get('/chart/:n', chartController.getLatestChart)
+app.post('/chart', chartController.postChart)
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => next(new Error(req.url)))
