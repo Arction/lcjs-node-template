@@ -1,14 +1,5 @@
 import { Request, Response } from 'express'
-import { Themes } from 'lcjs'
-import { addToLatest, generateChart, getChartImage } from '../chart/chart'
-
-export const getIndexChart = async (req: Request, res: Response) => {
-    const theme = req.session.theme || Themes.dark
-    const title = req.session.chartTitle || 'ChartXY'
-    const img = await generateChart({ theme, title })
-    addToLatest(img)
-    return img.toFormat('png').pipe(res)
-}
+import { addToLatest, generateChart, getChartImage, getChartOptionsFromSession } from '../chart/chart'
 
 export const getLatestChart = async (req: Request, res: Response) => {
     const id = Number(req.params.n)
@@ -34,5 +25,8 @@ export const postChart = async (req: Request, res: Response) => {
     if (req.body.title) {
         req.session.chartTitle = req.body.title
     }
+    const options = getChartOptionsFromSession(req)
+    const img = await generateChart(options)
+    addToLatest(img)
     return res.redirect('/')
 }

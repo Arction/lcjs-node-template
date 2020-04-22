@@ -2,10 +2,12 @@ extends layout
 
 block content
   h1 LightningChart JS 
-    sup &reg;
+    sup &reg; 
+    | headless
+    
   .container-lg
     .row
-      img.col-8(src="/chart")
+      img.col-8(src="/chart/0")
       .col
         h2 Edit the chart
         form(action="/chart", method="POST")
@@ -21,8 +23,8 @@ block content
           .form-group
             input.btn.btn-primary(type="submit", value="Submit")
     .row.mt-2
-      img.col(src="/chart/0")
       img.col(src="/chart/1")
       img.col(src="/chart/2")
       img.col(src="/chart/3")
       img.col(src="/chart/4")
+      img.col(src="/chart/5")

@@ -30,7 +30,6 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 // primary routes
 app.get('/', homeController.index)
 app.get('/about', aboutController.index)
-app.get('/chart', chartController.getIndexChart)
 app.get('/chart/:n', chartController.getLatestChart)
 app.post('/chart', chartController.postChart)
 

@@ -2,19 +2,21 @@ import { lightningChart, renderToSharp } from 'lcjs-headless'
 import { createProgressiveTraceGenerator } from '@arction/xydata'
 import { DataPatterns, Themes } from 'lcjs'
 import sharp from 'sharp'
+import { Request } from 'express'
 
 const lc = lightningChart()
 
 const generator = createProgressiveTraceGenerator().setNumberOfPoints(100)
 
 const latestCharts: sharp.Sharp[] = []
+const nCharts = 6
 
 export const addToLatest = (img: sharp.Sharp) => {
-    if (latestCharts.length < 5) {
-        latestCharts.push(img.clone())
+    if (latestCharts.length < nCharts) {
+        latestCharts.unshift(img.clone())
     } else {
-        latestCharts.shift()
-        latestCharts.push(img.clone())
+        latestCharts.pop()
+        latestCharts.unshift(img.clone())
     }
 }
 
@@ -46,3 +48,21 @@ export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp>
     chart.dispose()
     return img
 }
+
+export const getChartOptionsFromSession = (req: Request): ChartOptions => {
+    return {
+        title: req.session.chartTitle || 'ChartXY',
+        theme: req.session.theme || 'dark',
+    }
+}
+
+const populateLatest = async () => {
+    for (let i = 0; i < nCharts; i += 1) {
+        generateChart({
+            title: 'ChartXY',
+            theme: 'dark',
+        }).then(addToLatest)
+    }
+}
+
+populateLatest()
