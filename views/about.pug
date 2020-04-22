@@ -1,6 +1,21 @@
 extends layout
 
 block content
-  h1 About LightningChart JS headless
-    sup &reg;
+  h1.display-3 About LightningChart JS
+    sup &reg; 
+    | headless
   .container-lg
+    .row
+      p.lead This template showcases a how to use the 
+        a(href="https://www.arction.com/lightningchart-js/") LightningChart JS 
+        | data visualization charting library in a Node JS based server environment.
+    .row
+      p.col Node JS environment is supported from LightningChart JS Version 
+        strong 1.3.0. 
+        | The earlier versions aren't supported.
+    .row
+      p.col The actual support is provided with a separate package 
+        a(href="https://www.npmjs.com/package/@arction/lcjs-headless") @arction/lcjs-headless
+        | . This package can be installed from 
+        a(href="https://www.npmjs.com") npm
+        | .
