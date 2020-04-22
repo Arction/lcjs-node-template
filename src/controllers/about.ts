@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
 /**
- * GET /
+ * GET /about
  * About page.
  */
 export const index = async (req: Request, res: Response) => {
