@@ -1,6 +1,6 @@
-import { lightningChart, renderToSharp } from 'lcjs-headless'
+import { lightningChart, renderToSharp } from '@arction/lcjs-headless'
 import { createProgressiveTraceGenerator } from '@arction/xydata'
-import { DataPatterns, Themes } from 'lcjs'
+import { Themes, DataPatterns } from '@arction/lcjs'
 import sharp from 'sharp'
 import { Request } from 'express'
 
@@ -81,7 +81,7 @@ export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp>
     series.add(data)
 
     // render the chart to a sharp based image using a helper method from @arction/lcjs-headless package
-    const img = await renderToSharp(chart, 720, 720)
+    const img = await renderToSharp(chart, 721, 720)
 
     // clean up the chart, ensure that all resources used by the chart are released
     series.dispose()

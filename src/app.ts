@@ -6,7 +6,7 @@ import 'sharp'
 // IMPORTANT
 // the "@arction/lcjs-headless" package should always be imported as soon as possible
 // and it has to be imported before anything is imported from the "@arction/lcjs" package!
-import 'lcjs-headless'
+import '@arction/lcjs-headless'
 
 import * as homeController from './controllers/home'
 import * as aboutController from './controllers/about'
