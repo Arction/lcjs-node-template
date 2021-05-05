@@ -1,6 +1,6 @@
 import { lightningChart, renderToSharp } from '@arction/lcjs-headless'
 import { createProgressiveTraceGenerator } from '@arction/xydata'
-import { Themes, DataPatterns } from '@arction/lcjs'
+import { Themes } from '@arction/lcjs'
 import sharp from 'sharp'
 import { Request } from 'express'
 
@@ -75,7 +75,9 @@ export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp>
         .setTitle(options.title)
     // create a new series, use horizontalProgressive data pattern for improved performance
     const series = chart.addLineSeries({
-        dataPattern: DataPatterns.horizontalProgressive,
+        dataPattern: {
+            pattern: 'ProgressiveX',
+        },
     })
     // add the generated data to the series
     series.add(data)
