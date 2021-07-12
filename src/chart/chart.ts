@@ -1,12 +1,15 @@
 import { lightningChart, renderToSharp } from '@arction/lcjs-headless'
 import { createProgressiveTraceGenerator } from '@arction/xydata'
-import { Themes } from '@arction/lcjs'
+import { MapTypes, Themes } from '@arction/lcjs'
 import sharp from 'sharp'
 import { Request } from 'express'
+import * as path from 'path'
 
 // Initialize Lightning Chart
 // if a license key should be used, add it to this call
-const lc = lightningChart()
+const lc = lightningChart({
+    resourcesBaseUrl: `fs:${path.resolve(__dirname, '..', '..', 'node_modules', '@arction', 'lcjs', 'dist', 'resources')}`,
+})
 
 /**
  * Data Generator
@@ -94,11 +97,40 @@ export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp>
 }
 
 /**
+ * Generate a chart based on the provided options
+ * @param options Chart generation options
+ */
+export const generateMapChart = async (options: ChartOptions): Promise<sharp.Sharp> => {
+    // prepare theme, based on options
+    const theme = options.theme === 'light' ? Themes.light : Themes.dark
+    // initialize the chart
+    const chart = lc
+        .Map({
+            theme,
+            type: MapTypes.Europe,
+        })
+        // set chart title to the provided title from options
+        .setTitle(options.title)
+    const p = new Promise((r) => {
+        chart.onMapDataReady(r as () => void)
+    })
+    await p
+    // render the chart to a sharp based image using a helper method from @arction/lcjs-headless package
+    const img = await renderToSharp(chart, 721, 720)
+
+    // clean up the chart, ensure that all resources used by the chart are released
+    chart.dispose()
+
+    // return the generated image
+    return img
+}
+
+/**
  * Get chart generation options for the latest user
  */
-export const getChartOptionsFromSession = (req: Request): ChartOptions => {
+export const getChartOptionsFromSession = (req: Request, type: string): ChartOptions => {
     return {
-        title: req.session.chartTitle || 'ChartXY',
+        title: req.session.chartTitle || type === 'map' ? 'Map' : 'ChartXY',
         theme: req.session.theme || 'dark',
     }
 }

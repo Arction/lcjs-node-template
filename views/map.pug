@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1 LightningChart JS
+    sup &reg; 
+    | headless
+    
+  .container-lg
+    .row
+      img.col-8(src="/chart/0")
+      .col
+        h2 Edit the chart
+        form(action="/chart?type=map", method="POST")
+          .form-group
+            label(for="theme-select") Choose theme:
+            select.form-control(name="theme" id="theme-select")
+              - var isDarkTheme = theme == 'dark'
+              option(value="Dark", selected=isDarkTheme) Dark
+              option(value="Light", selected=!isDarkTheme) Light
+          .form-group
+            label(for="title-select") Chart title:
+            input.form-control(name="title" id="title-select" value=chartTitle)
+          .form-group
+            input.btn.btn-primary(type="submit", value="Submit")
+    .row.mt-2
+      a.col(href="/chart/1")
+        img.col.p-0(src="/chart/1")
+      a.col(href="/chart/2")
+        img.col.p-0(src="/chart/2")
+      a.col(href="/chart/3")
+        img.col.p-0(src="/chart/3")
+      a.col(href="/chart/4")
+        img.col.p-0(src="/chart/4")
+      a.col(href="/chart/5")
+        img.col.p-0(src="/chart/5")
