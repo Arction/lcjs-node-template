@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { addToLatest, generateChart, getChartImage, getChartOptionsFromSession } from '../chart/chart'
+import { addToLatest, generateChart, generateMapChart, getChartImage, getChartOptionsFromSession } from '../chart/chart'
 
 /**
  * GET /chart/:n
@@ -30,7 +30,7 @@ export const postChart = async (req: Request, res: Response) => {
         default:
             theme = 'dark'
     }
-
+    const chartType = req.query.type ? req.query.type.toString() : 'xy'
     // store chart generation settings in the session
     req.session.theme = theme
     if (req.body.title) {
@@ -38,10 +38,18 @@ export const postChart = async (req: Request, res: Response) => {
     }
 
     // get stored settings from current user session
-    const options = getChartOptionsFromSession(req)
+    const options = getChartOptionsFromSession(req, chartType)
     // generate a new chart image and store it to the latest generated charts list
-    const img = await generateChart(options)
+    let img
+    if (chartType === 'map') {
+        img = await generateMapChart(options)
+    } else {
+        img = await generateChart(options)
+    }
     addToLatest(img)
     // redirect back to home page, home page will load the generated chart from latest chart list
+    if (chartType === 'map') {
+        return res.redirect('/map')
+    }
     return res.redirect('/')
 }

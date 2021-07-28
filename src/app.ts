@@ -10,6 +10,7 @@ import '@arction/lcjs-headless'
 
 import * as homeController from './controllers/home'
 import * as aboutController from './controllers/about'
+import * as mapController from './controllers/map'
 import * as chartController from './controllers/charts'
 
 // initialize the application
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 // primary routes
 app.get('/', homeController.index)
 app.get('/about', aboutController.index)
+app.get('/map', mapController.index)
 app.get('/chart/:n', chartController.getLatestChart)
 app.post('/chart', chartController.postChart)
 
