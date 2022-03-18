@@ -1,9 +1,9 @@
-import { lightningChart, renderToSharp } from '@arction/lcjs-headless'
+import { lightningChart, renderToPNG } from '@arction/lcjs-headless'
 import { createProgressiveTraceGenerator } from '@arction/xydata'
 import { MapTypes, Themes } from '@arction/lcjs'
-import sharp from 'sharp'
 import { Request } from 'express'
 import * as path from 'path'
+import { PNG } from 'pngjs'
 
 // Initialize Lightning Chart
 // if a license key should be used, add it to this call
@@ -19,7 +19,7 @@ const generator = createProgressiveTraceGenerator().setNumberOfPoints(100)
 /**
  * Storage for latest n charts
  */
-const latestCharts: sharp.Sharp[] = []
+const latestCharts: Buffer[] = []
 /**
  * Number of stored chart images
  */
@@ -29,12 +29,12 @@ const nCharts = 6
  * Add a sharp image to the list of latest generated images
  * @param img Image to store
  */
-export const addToLatest = (img: sharp.Sharp) => {
+export const addToLatest = (img: PNG) => {
     if (latestCharts.length < nCharts) {
-        latestCharts.unshift(img.clone())
+        latestCharts.unshift(PNG.sync.write(img))
     } else {
         latestCharts.pop()
-        latestCharts.unshift(img.clone())
+        latestCharts.unshift(PNG.sync.write(img))
     }
 }
 
@@ -64,7 +64,7 @@ export interface ChartOptions {
  * Generate a chart based on the provided options
  * @param options Chart generation options
  */
-export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp> => {
+export const generateChart = async (options: ChartOptions): Promise<PNG> => {
     // generate data
     const data = await generator.generate().toPromise()
     // prepare theme, based on options
@@ -86,7 +86,7 @@ export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp>
     series.add(data)
 
     // render the chart to a sharp based image using a helper method from @arction/lcjs-headless package
-    const img = await renderToSharp(chart, 721, 720)
+    const img = await renderToPNG(chart, 721, 720)
 
     // clean up the chart, ensure that all resources used by the chart are released
     series.dispose()
@@ -100,7 +100,7 @@ export const generateChart = async (options: ChartOptions): Promise<sharp.Sharp>
  * Generate a chart based on the provided options
  * @param options Chart generation options
  */
-export const generateMapChart = async (options: ChartOptions): Promise<sharp.Sharp> => {
+export const generateMapChart = async (options: ChartOptions): Promise<PNG> => {
     // prepare theme, based on options
     const theme = options.theme === 'light' ? Themes.light : Themes.dark
     // initialize the chart
@@ -116,7 +116,7 @@ export const generateMapChart = async (options: ChartOptions): Promise<sharp.Sha
     })
     await p
     // render the chart to a sharp based image using a helper method from @arction/lcjs-headless package
-    const img = await renderToSharp(chart, 721, 720)
+    const img = await renderToPNG(chart, 721, 720)
 
     // clean up the chart, ensure that all resources used by the chart are released
     chart.dispose()

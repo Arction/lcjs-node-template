@@ -11,7 +11,7 @@ export const getLatestChart = async (req: Request, res: Response) => {
     const id = Number(req.params.n)
     const img = getChartImage(id)
     if (img) {
-        return img.clone().toFormat('png').pipe(res)
+        return res.send(img)
     }
     return res.sendStatus(404)
 }
