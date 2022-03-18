@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import session from 'express-session'
-import 'sharp'
+import 'pngjs'
 // IMPORTANT
 // the "@arction/lcjs-headless" package should always be imported as soon as possible
 // and it has to be imported before anything is imported from the "@arction/lcjs" package!
@@ -33,6 +33,13 @@ app.use(
         secret: SESSION_SECRET,
     }),
 )
+
+declare module 'express-session' {
+    interface SessionData {
+        theme: 'dark' | 'light'
+        chartTitle: string
+    }
+}
 
 // serve static files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
