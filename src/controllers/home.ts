@@ -7,7 +7,7 @@ import { Request, Response } from 'express'
 export const index = async (req: Request, res: Response) => {
     res.render('home', {
         title: 'Home',
-        theme: req.session.theme || 'dark',
+        theme: req.session.theme || 'darkGold',
         chartTitle: req.session.chartTitle || 'ChartXY',
     })
 }

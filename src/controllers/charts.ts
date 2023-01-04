@@ -22,13 +22,13 @@ export const getLatestChart = async (req: Request, res: Response) => {
  */
 export const postChart = async (req: Request, res: Response) => {
     // resolve theme
-    let theme: 'dark' | 'light' = 'dark'
+    let theme: 'darkGold' | 'light' = 'darkGold'
     switch (req.body.theme.toLowerCase()) {
         case 'light':
             theme = 'light'
             break
         default:
-            theme = 'dark'
+            theme = 'darkGold'
     }
     const chartType = req.query.type ? req.query.type.toString() : 'xy'
     // store chart generation settings in the session

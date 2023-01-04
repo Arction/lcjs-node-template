@@ -53,7 +53,7 @@ export interface ChartOptions {
     /**
      * Chart theme
      */
-    theme: 'dark' | 'light'
+    theme: 'darkGold' | 'light'
     /**
      * Chart title
      */
@@ -68,7 +68,7 @@ export const generateChart = async (options: ChartOptions): Promise<PNG> => {
     // generate data
     const data = await generator.generate().toPromise()
     // prepare theme, based on options
-    const theme = options.theme === 'light' ? Themes.light : Themes.dark
+    const theme = options.theme === 'light' ? Themes.light : Themes.darkGold
     // initialize the chart
     const chart = lc
         .ChartXY({
@@ -102,7 +102,7 @@ export const generateChart = async (options: ChartOptions): Promise<PNG> => {
  */
 export const generateMapChart = async (options: ChartOptions): Promise<PNG> => {
     // prepare theme, based on options
-    const theme = options.theme === 'light' ? Themes.light : Themes.dark
+    const theme = options.theme === 'light' ? Themes.light : Themes.darkGold
     // initialize the chart
     const chart = lc
         .Map({
@@ -131,7 +131,7 @@ export const generateMapChart = async (options: ChartOptions): Promise<PNG> => {
 export const getChartOptionsFromSession = (req: Request, type: string): ChartOptions => {
     return {
         title: req.session.chartTitle || type === 'map' ? 'Map' : 'ChartXY',
-        theme: req.session.theme || 'dark',
+        theme: req.session.theme || 'darkGold',
     }
 }
 
@@ -142,7 +142,7 @@ const populateLatest = async () => {
     for (let i = 0; i < nCharts; i += 1) {
         generateChart({
             title: 'ChartXY',
-            theme: 'dark',
+            theme: 'darkGold',
         }).then(addToLatest)
     }
 }
