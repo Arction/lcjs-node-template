@@ -36,7 +36,7 @@ app.use(
 
 declare module 'express-session' {
     interface SessionData {
-        theme: 'dark' | 'light'
+        theme: 'darkGold' | 'light'
         chartTitle: string
     }
 }

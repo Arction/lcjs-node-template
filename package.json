@@ -26,8 +26,8 @@
   "author": "Arction Ltd.",
   "license": "MIT",
   "dependencies": {
-    "@arction/lcjs": "^3.4.0",
-    "@arction/lcjs-headless": "1.5.0",
+    "@arction/lcjs": "^4.0.1",
+    "@arction/lcjs-headless": "^1.6.0",
     "@arction/xydata": "^1.4.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
@@ -59,6 +59,6 @@
     "prettier": "^2.0.4",
     "pug": "^2.0.4",
     "ts-node": "^8.8.2",
-    "typescript": "^3.8.3"
+    "typescript": "^4.9.4"
   }
 }

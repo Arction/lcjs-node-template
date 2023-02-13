@@ -12,6 +12,6 @@ export const index = async (req: Request, res: Response) => {
     addToLatest(img)
     res.render('map', {
         title: 'Map',
-        theme: req.session.theme || 'dark',
+        theme: req.session.theme || 'darkGold',
     })
 }
