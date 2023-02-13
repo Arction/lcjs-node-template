@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 
+fs.copySync('src/public/css/','dist/public/css', {recursive: true})
 fs.copySync('src/public/js/lib/','dist/public/js', {recursive: true})
 fs.copySync('src/public/fonts/','dist/public/', {recursive: true})
 fs.copySync('src/public/images/','dist/public/', {recursive: true})
