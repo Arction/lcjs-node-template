@@ -26,7 +26,7 @@
   "author": "Arction Ltd.",
   "license": "MIT",
   "dependencies": {
-    "@arction/lcjs": "^4.0.1",
+    "@arction/lcjs": "^4.1.0",
     "@arction/lcjs-headless": "^1.6.0",
     "@arction/xydata": "^1.4.0",
     "body-parser": "^1.19.0",
